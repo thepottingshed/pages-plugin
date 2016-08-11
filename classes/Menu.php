@@ -280,14 +280,15 @@ class Menu extends CmsObject
                             }
 
                             if (isset($itemInfo['items'])) {
-                                $itemIterator = function($items) use (&$itemIterator, $parentReference) {
+                                $itemIterator = function($items) use (&$itemIterator, $parentReference, $activeMenuItem) {
                                     $result = [];
 
                                     foreach ($items as $item) {
                                         $reference = new MenuItemReference;
                                         $reference->title = isset($item['title']) ? $item['title'] : '--no title--';
                                         $reference->url = isset($item['url']) ? $item['url'] : '#';
-                                        $reference->isActive = isset($item['isActive']) ? $item['isActive'] : false;
+                                        $reference->code = isset($item['code']) ? $item['code'] : null;
+                                        $reference->isActive = isset($item['isActive']) ? $item['isActive'] || $item['code'] == $activeMenuItem : false;
                                         $reference->viewBag = isset($item['viewBag']) ? $item['viewBag'] : [];
 
                                         if (!strlen($parentReference->url)) {
